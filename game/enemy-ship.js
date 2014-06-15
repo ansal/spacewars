@@ -4,18 +4,26 @@ var SpaceWars = SpaceWars || {};
 
 (function(){
 
+  var ENEMY_SHIPS = ['enemyBlack', 'enemyBlue', 'enemyGreen', 'enemyRed'];
+
   SpaceWars.EnemyShips = {
 
     loadAssets: function(stage) {
 
-      stage.game.load.image(
-        'enemyShip1',
-        'assets/images/ships/enemyBlack1.png'
-      );
+      for(var i = 0; i < ENEMY_SHIPS.length; i += 1) {
+        for(var j = 1; j <= 5; j += 1) {
+          stage.game.load.image(
+            ENEMY_SHIPS[i] + j ,
+            'assets/images/ships/' + ENEMY_SHIPS[i] + j +'.png'
+          );
+        }
+      }
       stage.game.load.image(
         'enemyLaser',
         'assets/images/lasers/laserRed.png'
       );
+
+      window.stage = stage;
 
     },
 
@@ -25,7 +33,10 @@ var SpaceWars = SpaceWars || {};
       
       stage.enemyPool = stage.game.add.group();
       for(var i = 0; i < stage.enemyShipConstants.NUM_SHIPS; i += 1) {
-        var enemy = stage.game.add.sprite(0, 0, 'enemyShip1');
+        var enemyShip = 
+          ENEMY_SHIPS[stage.game.rnd.integerInRange(0, ENEMY_SHIPS.length - 1)]
+          + stage.game.rnd.integerInRange(1, 5);
+        var enemy = stage.game.add.sprite(0, 0, enemyShip);
         stage.enemyPool.add(enemy);
         enemy.anchor.setTo(0.5, 0.5);
         stage.game.physics.enable(enemy, Phaser.Physics.ARCADE);
@@ -51,6 +62,8 @@ var SpaceWars = SpaceWars || {};
       }
 
       enemy.revive();
+
+      enemy.damageCount = 0;
 
       enemy.reset(
         stage.game.rnd.integerInRange(10, stage.game.width - 10),

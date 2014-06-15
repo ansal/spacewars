@@ -5,7 +5,11 @@ var SpaceWars = SpaceWars || {};
 
 (function(){
 
-  var game = new Phaser.Game(848, 500, Phaser.AUTO, 'game');
-  game.state.add('Stage1', SpaceWars.Stage1, true)
+  var game = new Phaser.Game(
+    window.screen.availWidth - 20, 
+    window.screen.availHeight - 80, 
+    Phaser.AUTO, 
+  'game');
+  game.state.add('Stage1', SpaceWars.Stage1, true);
 
 })();

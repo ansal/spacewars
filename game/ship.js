@@ -50,6 +50,9 @@ var SpaceWars = SpaceWars || {};
         laser.kill();
       }
 
+      // set damage to 0
+      stage.ship.damageCount = 0;
+
     },
 
     controlShip: function(stage) {
