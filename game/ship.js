@@ -37,8 +37,8 @@ var SpaceWars = SpaceWars || {};
 
       // laser motion constants
       stage.laserConstants = {};
-      stage.laserConstants.SHOT_DELAY = 100; // in milliseconds (10 bullets per second)
-      stage.laserConstants.LASER_SPEED = 500;
+      stage.laserConstants.SHOT_DELAY = 200; // in milliseconds (10 bullets per second)
+      stage.laserConstants.LASER_SPEED = 1000;
       stage.laserConstants.NUMBER_OF_LASERS = 20;
       // create a group of lasers
       stage.laserPool = stage.game.add.group();

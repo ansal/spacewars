@@ -37,7 +37,11 @@ var SpaceWars = SpaceWars || {};
 
   // constants
   var ENEMY_MAX_DAMAGE = 10;
-  var SHIP_MAX_DAMAGE = 50;
+  var SHIP_MAX_DAMAGE = 100;
+  var METEOR_TINY_MAX_DAMAGE = 1;
+  var METEOR_SMALL_MAX_DAMAGE = 2;
+  var METEOR_MED_MAX_DAMAGE = 3;
+  var METEOR_BIG_MAX_DAMAGE = 4;
 
   SpaceWars.Stage1 = function(game) {};
 
@@ -50,6 +54,7 @@ var SpaceWars = SpaceWars || {};
     SpaceWars.PlayerShip.loadAssets(this);
     SpaceWars.EnemyShips.loadAssets(this);
     SpaceWars.Impacts.loadAssets(this);
+    SpaceWars.Meteors.loadAssets(this);
 
   };
 
@@ -60,11 +65,12 @@ var SpaceWars = SpaceWars || {};
     SpaceWars.PlayerShip.createShip(this);
 
     var enemyShipConstants = {
-      SPEED: 200,
-      NUM_SHIPS: 10,
-      SHOT_DELAY: 1000,
-      LASER_SPEED: 500,
-      NUM_LASERS: 100
+      SPEED: 100,
+      NUM_SHIPS: 6,
+      SHOT_DELAY: 8000,
+      LASER_SPEED: 250,
+      NUM_LASERS: 100,
+      MAX_SHIPS_IN_SCREEN: 2
     };
     SpaceWars.EnemyShips.createShips(this, enemyShipConstants);
     this.gameDataState = gameDataState({
@@ -73,12 +79,39 @@ var SpaceWars = SpaceWars || {};
 
     SpaceWars.Impacts.createImpacts(this);
 
-    // add timer to update movements
+    var meteorConstants = {
+      BIG: {
+        NUM: 1,
+        SPEED: 10
+      },
+      MED: {
+        NUM: 1,
+        SPEED: 15
+      },
+      SMALL: {
+        NUM: 1,
+        SPEED: 20
+      },
+      TINY: {
+        NUM: 2,
+        SPEED: 25
+      }
+    };
+    SpaceWars.Meteors.createMeteors(this, meteorConstants);
+
+    // timer to add ships
     this.game.time.events.loop(
       Phaser.Timer.SECOND * 5,
       createOneShip,
       this
     );
+
+    // timer to add meteors
+    this.game.time.events.loop(
+      Phaser.Timer.SECOND * 3,
+      createMeteors,
+      this
+    );    
 
   };
 
@@ -96,6 +129,7 @@ var SpaceWars = SpaceWars || {};
 
     SpaceWars.PlayerShip.controlShip(this);
     SpaceWars.EnemyShips.updateShips(this);
+    SpaceWars.Meteors.updateMeteors(this);
 
     // collisions
 
@@ -126,18 +160,94 @@ var SpaceWars = SpaceWars || {};
       this
     );
 
+    // meteor collisions
+
+    // player laser hit tiny meteor
+
+    this.game.physics.arcade.collide(
+      this.laserPool,
+      this.meteorTinyPool,
+      laserHitTinyMeteor,
+      null,
+      this
+    );
+
+    // meteors hit player
+    this.game.physics.arcade.collide(
+      this.meteorTinyPool,
+      this.ship,
+      meteorTinyHitPlayer,
+      null,
+      this
+    );
+
+    this.game.physics.arcade.collide(
+      this.laserPool,
+      this.meteorSmallPool,
+      laserHitSmallMeteor,
+      null,
+      this
+    );
+
+    // meteors hit player
+    this.game.physics.arcade.collide(
+      this.meteorSmallPool,
+      this.ship,
+      meteorSmallHitPlayer,
+      null,
+      this
+    );
+
+    this.game.physics.arcade.collide(
+      this.laserPool,
+      this.meteorMedPool,
+      laserHitMedMeteor,
+      null,
+      this
+    );
+
+    // meteors hit player
+    this.game.physics.arcade.collide(
+      this.meteorMedPool,
+      this.ship,
+      meteorMedHitPlayer,
+      null,
+      this
+    );
+
+    this.game.physics.arcade.collide(
+      this.laserPool,
+      this.meteorBigPool,
+      laserHitBigMeteor,
+      null,
+      this
+    );
+
+    // meteors hit player
+    this.game.physics.arcade.collide(
+      this.meteorBigPool,
+      this.ship,
+      meteorBigHitPlayer,
+      null,
+      this
+    );
+
   };
 
   function createOneShip() {
 
-    if( this.gameDataState.getEnemiesCreated() <= 
+    if( this.gameDataState.getEnemiesCreated() >= 
         this.enemyShipConstants.NUM_SHIPS
     ) {
-
-      SpaceWars.EnemyShips.createOneShip(this);
-      this.gameDataState.incrEnemiesCreated();
-
+      return;
     }
+
+    if(this.enemyPool.countLiving() >= this.enemyShipConstants.MAX_SHIPS_IN_SCREEN) {
+      return;
+    }
+
+    SpaceWars.EnemyShips.createOneShip(this);
+    this.gameDataState.incrEnemiesCreated();
 
   }
 
@@ -172,6 +282,91 @@ var SpaceWars = SpaceWars || {};
     SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
     updatePlayerDamage(player);
     updateEnemyDamage(enemy);
+  }
+
+  function createMeteors() {
+    SpaceWars.Meteors.createTinyMeteors(this);
+    SpaceWars.Meteors.createSmallMeteors(this);
+    SpaceWars.Meteors.createMedMeteors(this);
+    SpaceWars.Meteors.createBigMeteors(this);
+  }
+
+  // meteor collisions
+
+  // tiny meteors
+
+  function updateMeteorTinyDamage(meteor) {
+    meteor.damageCount += 1;
+    if(meteor.damageCount >= METEOR_TINY_MAX_DAMAGE) {
+      meteor.kill();
+    }
+  }
+  function laserHitTinyMeteor(laser, meteor) {
+    SpaceWars.Impacts.showEnemyImpact(this, meteor);
+    updateMeteorTinyDamage(meteor);
+    laser.kill();
+  }
+  function meteorTinyHitPlayer(player, meteor) {
+    SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
+    updatePlayerDamage(player);
+    updateMeteorTinyDamage(meteor);  
+  }
+
+  // small meteors
+
+  function updateMeteorSmallDamage(meteor) {
+    meteor.damageCount += 1;
+    if(meteor.damageCount >= METEOR_SMALL_MAX_DAMAGE) {
+      meteor.kill();
+    }
+  }
+  function laserHitSmallMeteor(laser, meteor) {
+    SpaceWars.Impacts.showEnemyImpact(this, meteor);
+    updateMeteorTinyDamage(meteor);
+    laser.kill();
+  }
+  function meteorSmallHitPlayer(player, meteor) {
+    SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
+    updatePlayerDamage(player);
+    updateMeteorTinyDamage(meteor);  
+  }
+
+  // med meteors
+
+  function updateMeteorMedDamage(meteor) {
+    meteor.damageCount += 1;
+    if(meteor.damageCount >= METEOR_MED_MAX_DAMAGE) {
+      meteor.kill();
+    }
+  }
+  function laserHitMedMeteor(laser, meteor) {
+    SpaceWars.Impacts.showEnemyImpact(this, meteor);
+    updateMeteorTinyDamage(meteor);
+    laser.kill();
+  }
+  function meteorMedHitPlayer(player, meteor) {
+    SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
+    updatePlayerDamage(player);
+    updateMeteorTinyDamage(meteor);  
+  }
+
+  // big meteors
+
+  function updateMeteorBigDamage(meteor) {
+    meteor.damageCount += 1;
+    if(meteor.damageCount >= METEOR_BIG_MAX_DAMAGE) {
+      meteor.kill();
+    }
+  }
+  function laserHitBigMeteor(laser, meteor) {
+    SpaceWars.Impacts.showEnemyImpact(this, meteor);
+    updateMeteorTinyDamage(meteor);
+    laser.kill();
+  }
+  function meteorBigHitPlayer(player, meteor) {
+    SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
+    updatePlayerDamage(player);
+    updateMeteorTinyDamage(meteor);  
   }
 
 })();
