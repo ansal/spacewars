@@ -21,6 +21,7 @@ var SpaceWars = SpaceWars || {};
       stage.shipConstants.ACCELERATION = 300; // pixels per second
       stage.shipConstants.MAX_SPEED = 400; // pixels per second
       stage.shipConstants.DRAG = 100; // pixels per second
+      stage.shipConstants.MAX_LASERS = 100;
 
       // add the ship to the stage
       stage.ship = stage.game.add.sprite(
@@ -52,6 +53,9 @@ var SpaceWars = SpaceWars || {};
 
       // set damage to 0
       stage.ship.damageCount = 0;
+
+      // set shot fired to 0
+      stage.ship.playerLaserCount = stage.shipConstants.MAX_LASERS;
 
     },
 
@@ -94,6 +98,10 @@ var SpaceWars = SpaceWars || {};
 
     shootLaser: function(stage) {
 
+      if(stage.ship.playerLaserCount === 0) {
+        return;
+      }
+
       if(this.lastLaserShotAt === undefined) {
         this.lastLaserShotAt = 0;
       }
@@ -119,6 +127,10 @@ var SpaceWars = SpaceWars || {};
         * stage.laserConstants.LASER_SPEED;
       laser.body.velocity.y = Math.sin(laser.rotation)
         * stage.laserConstants.LASER_SPEED;
+
+      // decrease laser count
+      stage.ship.playerLaserCount -= 1;
+      SpaceWars.ScoreBoard.updateLaserCount(stage, stage.ship.playerLaserCount);
 
     },
 

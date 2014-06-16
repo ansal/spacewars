@@ -99,6 +99,8 @@ var SpaceWars = SpaceWars || {};
     };
     SpaceWars.Meteors.createMeteors(this, meteorConstants);
 
+    SpaceWars.ScoreBoard.create(this);
+
     // timer to add ships
     this.game.time.events.loop(
       Phaser.Timer.SECOND * 5,
@@ -260,6 +262,9 @@ var SpaceWars = SpaceWars || {};
 
   function updatePlayerDamage(player) {
     player.damageCount += 1;
+    SpaceWars.ScoreBoard.updatePlayerHealth(stage, 
+      100 - player.damageCount
+    );
     if(player.damageCount >= SHIP_MAX_DAMAGE) {
       player.kill();
     }
