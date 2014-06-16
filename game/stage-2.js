@@ -14,6 +14,9 @@ var SpaceWars = SpaceWars || {};
     var enemiesKilled = 0;
     var numEnemyShips = data.enemyShipConstants.NUM_SHIPS;
 
+    var ufosCreated = 0;
+    var ufosKilled = 0;
+
     that.getEnemiesCreated = function() {
       return enemiesCreated;
     };
@@ -32,19 +35,38 @@ var SpaceWars = SpaceWars || {};
       return enemiesKilled;
     }
 
+    that.getUfosCreated = function() {
+      return ufosCreated;
+    };
+
+    that.incrUfosCreated = function() {
+      ufosCreated += 1;
+      return ufosCreated;
+    };
+
+    that.getUfosKilled = function() {
+      return ufosKilled;
+    };
+
+    that.incrUfosKilled = function() {
+      ufosKilled += 1;
+      return ufosKilled;
+    }
+
     return that;
   }
 
-  SpaceWars.Stage1 = function(game) {};
+  SpaceWars.Stage2 = function(game) {};
 
   // short hand
-  var S1 = SpaceWars.Stage1;
+  var S1 = SpaceWars.Stage2;
 
   // load assets
   S1.prototype.preload = function() {
 
     SpaceWars.PlayerShip.loadAssets(this);
     SpaceWars.EnemyShips.loadAssets(this);
+    SpaceWars.Ufos.loadAssets(this);
     SpaceWars.Impacts.loadAssets(this);
     SpaceWars.Meteors.loadAssets(this);
     SpaceWars.Bolts.loadAssets(this);
@@ -55,41 +77,56 @@ var SpaceWars = SpaceWars || {};
 
   S1.prototype.create = function() {
 
-    SpaceWars.BackGround.createBackground(this, 'black');
+    SpaceWars.BackGround.createBackground(this, 'purple');
 
     SpaceWars.PlayerShip.createShip(this);
 
     var enemyShipConstants = {
-      SPEED: 200,
-      NUM_SHIPS: 6,
-      SHOT_DELAY: 6000,
-      LASER_SPEED: 200,
+      SPEED: 300,
+      NUM_SHIPS: 16,
+      SHOT_DELAY: 2000,
+      LASER_SPEED: 500,
       NUM_LASERS: 100,
-      MAX_SHIPS_IN_SCREEN: 2
+      MAX_SHIPS_IN_SCREEN: 4
     };
     SpaceWars.EnemyShips.createShips(this, enemyShipConstants);
-    this.gameDataState = gameDataState({
-      enemyShipConstants: enemyShipConstants
-    });
 
+    var ufoConstants = {
+
+      SPEED: 100,
+      ANGLE_SPEED: 2,
+      NUM_SHIPS: 3,
+      SHOT_DELAY: 500,
+      LASER_SPEED: 500,
+      NUM_LASERS: 200,
+      MAX_SHIPS_IN_SCREEN: 2,
+      MAX_ENEMY_KILLED_TO_APPEAR: 6
+
+    };
+    SpaceWars.Ufos.createUfos(this, ufoConstants);
     SpaceWars.Impacts.createImpacts(this);
+
+    this.gameDataState = gameDataState({
+      enemyShipConstants: enemyShipConstants,
+      ufoConstants: ufoConstants
+    });
 
     var meteorConstants = {
       BIG: {
-        NUM: 1,
-        SPEED: 10
-      },
-      MED: {
-        NUM: 1,
+        NUM: 2,
         SPEED: 15
       },
-      SMALL: {
-        NUM: 1,
+      MED: {
+        NUM: 3,
         SPEED: 20
       },
-      TINY: {
-        NUM: 2,
+      SMALL: {
+        NUM: 4,
         SPEED: 25
+      },
+      TINY: {
+        NUM: 5,
+        SPEED: 30
       }
     };
     SpaceWars.Meteors.createMeteors(this, meteorConstants);
@@ -116,17 +153,24 @@ var SpaceWars = SpaceWars || {};
 
     // timer to add bolts
     this.game.time.events.loop(
-      Phaser.Timer.SECOND * 15,
+      Phaser.Timer.SECOND * 12,
       SpaceWars.Bolts.createOneBolt,
       this
     );
 
     // timer to add pills
     this.game.time.events.loop(
-      Phaser.Timer.SECOND * 20,
+      Phaser.Timer.SECOND * 15,
       SpaceWars.Pills.createOnePill,
       this
     ); 
+
+    // timer to add ufos
+    this.game.time.events.loop(
+      Phaser.Timer.SECOND * 5,
+      SpaceWars.Ufos.createOneUfo,
+      this
+    );
 
   };
 
@@ -144,6 +188,7 @@ var SpaceWars = SpaceWars || {};
 
     SpaceWars.PlayerShip.controlShip(this);
     SpaceWars.EnemyShips.updateShips(this);
+    SpaceWars.Ufos.updateUfos(this);
     SpaceWars.Meteors.updateMeteors(this);
 
     // collisions
@@ -171,6 +216,33 @@ var SpaceWars = SpaceWars || {};
       this.enemyLaserPool,
       this.ship,
       SpaceWars.EnemyShips.laserHitPlayer,
+      null,
+      this
+    );
+
+    // ship hits ufo
+    this.game.physics.arcade.collide(
+      this.ship,
+      this.ufoPool,
+      SpaceWars.PlayerShip.shipHitUfo,
+      null,
+      this
+    );
+
+    // laser hit ufo
+    this.game.physics.arcade.collide(
+      this.laserPool,
+      this.ufoPool,
+      SpaceWars.PlayerShip.laserHitUfo,
+      null,
+      this
+    );
+
+    // ufo laser hit player
+    this.game.physics.arcade.collide(
+      this.ufoLaserPool,
+      this.ship,
+      SpaceWars.Ufos.laserHitPlayer,
       null,
       this
     );

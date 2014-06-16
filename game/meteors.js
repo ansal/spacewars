@@ -57,7 +57,7 @@ var SpaceWars = SpaceWars || {};
         var meteor = stage.game.add.sprite(
           0,
           0, 
-          'meteor' + this.getRandomMeteorType() + 'Big' + this.getRandomMeteorNumber(1, 4)
+          'meteor' + this.getRandomMeteorType(stage) + 'Big' + this.getRandomMeteorNumber(1, 4, stage)
         );
         stage.meteorBigPool.add(meteor);
         stage.game.physics.enable(meteor, Phaser.Physics.ARCADE);
@@ -70,7 +70,7 @@ var SpaceWars = SpaceWars || {};
         var meteor = stage.game.add.sprite(
           0,
           0, 
-          'meteor' + this.getRandomMeteorType() + 'Med' + this.getRandomMeteorNumber(1, 2)
+          'meteor' + this.getRandomMeteorType(stage) + 'Med' + this.getRandomMeteorNumber(1, 2, stage)
         );
         stage.meteorMedPool.add(meteor);
         stage.game.physics.enable(meteor, Phaser.Physics.ARCADE);
@@ -82,7 +82,7 @@ var SpaceWars = SpaceWars || {};
         var meteor = stage.game.add.sprite(
           0,
           0, 
-          'meteor' + this.getRandomMeteorType() + 'Small' + this.getRandomMeteorNumber(1, 2)
+          'meteor' + this.getRandomMeteorType(stage) + 'Small' + this.getRandomMeteorNumber(1, 2, stage)
         );
         stage.meteorSmallPool.add(meteor);
         stage.game.physics.enable(meteor, Phaser.Physics.ARCADE);
@@ -94,7 +94,7 @@ var SpaceWars = SpaceWars || {};
         var meteor = stage.game.add.sprite(
           0,
           0, 
-          'meteor' + this.getRandomMeteorType() + 'Tiny' + this.getRandomMeteorNumber(1, 2)
+          'meteor' + this.getRandomMeteorType(stage) + 'Tiny' + this.getRandomMeteorNumber(1, 2, stage)
         );
         stage.meteorTinyPool.add(meteor);
         stage.game.physics.enable(meteor, Phaser.Physics.ARCADE);
@@ -107,11 +107,11 @@ var SpaceWars = SpaceWars || {};
       
     },
 
-    getRandomMeteorType: function() {
+    getRandomMeteorType: function(stage) {
       return METEORS[stage.game.rnd.integerInRange(0, 1)];
     },
 
-    getRandomMeteorNumber: function(x, y) {
+    getRandomMeteorNumber: function(x, y, stage) {
       return stage.game.rnd.integerInRange(x, y);
     },
 
@@ -226,7 +226,7 @@ var SpaceWars = SpaceWars || {};
     },
     meteorTinyHitPlayer: function(player, meteor) {
       SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
-      SpaceWars.PlayerShip.updatePlayerDamage(player);
+      SpaceWars.PlayerShip.updatePlayerDamage(player, this);
       SpaceWars.Meteors.updateMeteorTinyDamage(meteor);  
     },
 
@@ -245,7 +245,7 @@ var SpaceWars = SpaceWars || {};
     },
     meteorSmallHitPlayer: function(player, meteor) {
       SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
-      SpaceWars.PlayerShip.updatePlayerDamage(player);
+      SpaceWars.PlayerShip.updatePlayerDamage(player, this);
       SpaceWars.Meteors.updateMeteorSmallDamage(meteor);  
     },
 
@@ -264,7 +264,7 @@ var SpaceWars = SpaceWars || {};
     },
     meteorMedHitPlayer: function(player, meteor) {
       SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
-      SpaceWars.PlayerShip.updatePlayerDamage(player);
+      SpaceWars.PlayerShip.updatePlayerDamage(player, this);
       SpaceWars.Meteors.updateMeteorMedDamage(meteor);  
     },
 
@@ -283,7 +283,7 @@ var SpaceWars = SpaceWars || {};
     },
     meteorBigHitPlayer: function(player, meteor) {
       SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
-      SpaceWars.PlayerShip.updatePlayerDamage(player);
+      SpaceWars.PlayerShip.updatePlayerDamage(player, this);
       SpaceWars.Meteors.updateMeteorBigDamage(meteor);  
     }
 

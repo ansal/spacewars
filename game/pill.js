@@ -6,7 +6,7 @@ var SpaceWars = SpaceWars || {};
 (function(){
 
   var MAX_PILLS = 3;
-  var PILL_DURATION = 5;
+  var PILL_DURATION = 15;
 
   SpaceWars.Pills= {
 

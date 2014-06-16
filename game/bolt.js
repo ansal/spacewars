@@ -6,7 +6,7 @@ var SpaceWars = SpaceWars || {};
 (function(){
 
   var MAX_BOLTS = 5;
-  var BOLT_DURATION = 6;
+  var BOLT_DURATION = 20;
 
   SpaceWars.Bolts= {
 
@@ -70,9 +70,9 @@ var SpaceWars = SpaceWars || {};
   boltHitPlayer: function(player, bolt) {
     bolt.kill();
     // TODO: some animation here
-    player.playerLaserCount += 50;
-    if(player.playerLaserCount > 100) {
-      player.playerLaserCount = 100;
+    player.playerLaserCount += 100;
+    if(player.playerLaserCount > 200) {
+      player.playerLaserCount = 200;
     }
     SpaceWars.ScoreBoard.updateLaserCount(this, player.playerLaserCount);
   }

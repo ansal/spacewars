@@ -24,8 +24,6 @@ var SpaceWars = SpaceWars || {};
         'assets/images/lasers/laserRed.png'
       );
 
-      window.stage = stage;
-
     },
 
     createShips: function(stage, enemyShipConstants) {
@@ -170,16 +168,17 @@ var SpaceWars = SpaceWars || {};
 
     },
 
-    updateEnemyDamage: function(enemy) {
+    updateEnemyDamage: function(enemy, stage) {
       enemy.damageCount += 1;
       if(enemy.damageCount >= ENEMY_MAX_DAMAGE) {
+        stage.gameDataState.incrEnemiesKilled();
         enemy.kill();
       }
     },
 
     laserHitPlayer: function(player, laser) {
       SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
-      SpaceWars.PlayerShip.updatePlayerDamage(player);
+      SpaceWars.PlayerShip.updatePlayerDamage(player, this);
       laser.kill();
     }
 

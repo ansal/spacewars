@@ -23,7 +23,7 @@ var SpaceWars = SpaceWars || {};
       stage.shipConstants.ACCELERATION = 400; // pixels per second
       stage.shipConstants.MAX_SPEED = 500; // pixels per second
       stage.shipConstants.DRAG = 100; // pixels per second
-      stage.shipConstants.MAX_LASERS = 100;
+      stage.shipConstants.MAX_LASERS = 200;
 
       // add the ship to the stage
       stage.ship = stage.game.add.sprite(
@@ -160,11 +160,11 @@ var SpaceWars = SpaceWars || {};
     shipHitEnemy: function(player, enemy) {
       SpaceWars.Impacts.showEnemyImpact(this, enemy);
       SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
-      SpaceWars.PlayerShip.updatePlayerDamage(player);
-      SpaceWars.EnemyShips.updateEnemyDamage(enemy);
+      SpaceWars.PlayerShip.updatePlayerDamage(player, this);
+      SpaceWars.EnemyShips.updateEnemyDamage(enemy, this);
     },
 
-    updatePlayerDamage: function(player) {
+    updatePlayerDamage: function(player, stage) {
       player.damageCount += 1;
       SpaceWars.ScoreBoard.updatePlayerHealth(stage, 
         100 - player.damageCount
@@ -176,9 +176,23 @@ var SpaceWars = SpaceWars || {};
 
     laserHitEnemy: function(laser, enemy) {
       SpaceWars.Impacts.showEnemyImpact(this, enemy);
-      SpaceWars.EnemyShips.updateEnemyDamage(enemy);
+      SpaceWars.EnemyShips.updateEnemyDamage(enemy, this);
       laser.kill();
-    }
+    },
+
+    // ufo collisions
+    shipHitUfo: function(player, ufo) {
+      SpaceWars.Impacts.showEnemyImpact(this, ufo);
+      SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
+      SpaceWars.PlayerShip.updatePlayerDamage(player, this);
+      SpaceWars.Ufos.updateUfoDamage(ufo, this);
+    },
+
+    laserHitUfo: function(laser, ufo) {
+      SpaceWars.Impacts.showEnemyImpact(this, ufo);
+      SpaceWars.Ufos.updateUfoDamage(ufo, this);
+      laser.kill();
+    },
 
   };
 
