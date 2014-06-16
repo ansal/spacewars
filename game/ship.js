@@ -18,8 +18,8 @@ var SpaceWars = SpaceWars || {};
       // spaceship motion constants
       stage.shipConstants = {};
       stage.shipConstants.ROTATION_SPEED = 240; // degrees per second
-      stage.shipConstants.ACCELERATION = 300; // pixels per second
-      stage.shipConstants.MAX_SPEED = 400; // pixels per second
+      stage.shipConstants.ACCELERATION = 400; // pixels per second
+      stage.shipConstants.MAX_SPEED = 500; // pixels per second
       stage.shipConstants.DRAG = 100; // pixels per second
       stage.shipConstants.MAX_LASERS = 100;
 
@@ -29,7 +29,7 @@ var SpaceWars = SpaceWars || {};
         stage.game.height/2, 'playerShip'
       );
       stage.ship.anchor.setTo(0.5, 0.5);
-      stage.ship.angle = -90;
+      //stage.ship.angle = -90;
 
       // enable physics on the ship
       stage.game.physics.enable(stage.ship, Phaser.Physics.ARCADE);
@@ -38,8 +38,8 @@ var SpaceWars = SpaceWars || {};
 
       // laser motion constants
       stage.laserConstants = {};
-      stage.laserConstants.SHOT_DELAY = 200; // in milliseconds (10 bullets per second)
-      stage.laserConstants.LASER_SPEED = 1000;
+      stage.laserConstants.SHOT_DELAY = 100; // in milliseconds (10 bullets per second)
+      stage.laserConstants.LASER_SPEED = 2000;
       stage.laserConstants.NUMBER_OF_LASERS = 20;
       // create a group of lasers
       stage.laserPool = stage.game.add.group();

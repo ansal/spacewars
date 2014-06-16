@@ -68,10 +68,10 @@ var SpaceWars = SpaceWars || {};
     SpaceWars.PlayerShip.createShip(this);
 
     var enemyShipConstants = {
-      SPEED: 100,
+      SPEED: 200,
       NUM_SHIPS: 6,
-      SHOT_DELAY: 8000,
-      LASER_SPEED: 250,
+      SHOT_DELAY: 6000,
+      LASER_SPEED: 200,
       NUM_LASERS: 100,
       MAX_SHIPS_IN_SCREEN: 2
     };

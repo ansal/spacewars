@@ -126,7 +126,7 @@ var SpaceWars = SpaceWars || {};
           -30
         );
         meteor.damageCount = 0;
-        meteor.body.rotation = stage.meteorConstants.TINY.ROTAION;
+        meteor.angle = stage.game.rnd.integerInRange(0, 360);
         meteor.body.velocity.x = stage.meteorConstants.TINY.SPEED;
         meteor.body.velocity.y = stage.meteorConstants.TINY.SPEED;
       }
