@@ -55,12 +55,15 @@ var SpaceWars = SpaceWars || {};
     SpaceWars.EnemyShips.loadAssets(this);
     SpaceWars.Impacts.loadAssets(this);
     SpaceWars.Meteors.loadAssets(this);
+    SpaceWars.Bolts.loadAssets(this);
+    SpaceWars.Pills.loadAssets(this);
+    SpaceWars.BackGround.loadAssets(this);
 
   };
 
   S1.prototype.create = function() {
 
-    this.game.stage.backgroundColor = 0x333333;
+    SpaceWars.BackGround.createBackground(this, 'black');
 
     SpaceWars.PlayerShip.createShip(this);
 
@@ -101,6 +104,10 @@ var SpaceWars = SpaceWars || {};
 
     SpaceWars.ScoreBoard.create(this);
 
+    SpaceWars.Bolts.createBolts(this);
+
+    SpaceWars.Pills.createPills(this);
+
     // timer to add ships
     this.game.time.events.loop(
       Phaser.Timer.SECOND * 5,
@@ -113,7 +120,21 @@ var SpaceWars = SpaceWars || {};
       Phaser.Timer.SECOND * 3,
       createMeteors,
       this
-    );    
+    );   
+
+    // timer to add bolts
+    this.game.time.events.loop(
+      Phaser.Timer.SECOND * 15,
+      createOneBolt,
+      this
+    );
+
+    // timer to add pills
+    this.game.time.events.loop(
+      Phaser.Timer.SECOND * 20,
+      createOnePill,
+      this
+    ); 
 
   };
 
@@ -230,6 +251,24 @@ var SpaceWars = SpaceWars || {};
       this.meteorBigPool,
       this.ship,
       meteorBigHitPlayer,
+      null,
+      this
+    );
+
+    // bolt hit player
+    this.game.physics.arcade.collide(
+      this.boltPool,
+      this.ship,
+      boltHitPlayer,
+      null,
+      this
+    );
+
+    // pill hit player
+    this.game.physics.arcade.collide(
+      this.pillPool,
+      this.ship,
+      pillHitPlayer,
       null,
       this
     );
@@ -372,6 +411,36 @@ var SpaceWars = SpaceWars || {};
     SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
     updatePlayerDamage(player);
     updateMeteorTinyDamage(meteor);  
+  }
+
+  // add a bolt to screen
+  function createOneBolt() {
+    SpaceWars.Bolts.createOneBolt(this);
+  }
+
+  function boltHitPlayer(player, bolt) {
+    bolt.kill();
+    // TODO: some animation here
+    player.playerLaserCount += 50;
+    if(player.playerLaserCount > 100) {
+      player.playerLaserCount = 100;
+    }
+    SpaceWars.ScoreBoard.updateLaserCount(this, player.playerLaserCount);
+  }
+
+  // add a pill to screen
+  function createOnePill() {
+    SpaceWars.Pills.createOnePill(this);
+  }
+
+  function pillHitPlayer(player, pill) {
+    pill.kill();
+    // TODO: some animation here
+    player.damageCount -= 50;
+    if(player.damageCount <= 0) {
+      player.damageCount = 0;
+    }
+    SpaceWars.ScoreBoard.updatePlayerHealth(this, 100 - player.damageCount);
   }
 
 })();
