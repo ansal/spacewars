@@ -9,8 +9,8 @@ var SpaceWars = SpaceWars || {};
 
       stage.playerScore = stage.game.add.text(
         stage.game.width - 150,
-        stage.game.height - 80, 
-        "Score: 0", {
+        0, 
+        "Score:     0", {
         font: "20px Arial",
         fill: "#ffffff",
         align: "right"
@@ -18,8 +18,8 @@ var SpaceWars = SpaceWars || {};
 
       stage.playerHealthCount = stage.game.add.text(
         stage.game.width - 150, 
-        stage.game.height - 60, 
-        "Health: 100", {
+        20, 
+        "Health:    100", {
         font: "20px Arial",
         fill: "#ffffff",
         align: "right"
@@ -27,8 +27,8 @@ var SpaceWars = SpaceWars || {};
 
       stage.playerLaserCount = stage.game.add.text(
         stage.game.width - 150, 
-        stage.game.height - 40, 
-        "Laser: 100", {
+        40, 
+        "Laser:     " + stage.shipConstants.MAX_LASERS, {
         font: "20px Arial",
         fill: "#ffffff",
         align: "right"
@@ -37,15 +37,15 @@ var SpaceWars = SpaceWars || {};
     },
 
     updatePlayerScore: function(stage, score) {
-      stage.playerScore.setText('Score: ' + score);
+      stage.playerScore.setText('Score:     ' + score);
     },
 
     updatePlayerHealth: function(stage, count) {
-      stage.playerHealthCount.setText('Health: ' + count);
+      stage.playerHealthCount.setText('Health:     ' + count);
     },
 
     updateLaserCount: function(stage, count) {
-      stage.playerLaserCount.setText('Laser: ' + count);
+      stage.playerLaserCount.setText('Laser:     ' + count);
     }
 
   };

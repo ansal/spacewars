@@ -1,4 +1,4 @@
-// Stage 1 of the game
+// Stage 3 of the game
 
 // global game variable
 var SpaceWars = SpaceWars || {};
@@ -56,10 +56,10 @@ var SpaceWars = SpaceWars || {};
     return that;
   }
 
-  SpaceWars.Stage2 = function(game) {};
+  SpaceWars.Stage3 = function(game) {};
 
   // short hand
-  var S1 = SpaceWars.Stage2;
+  var S1 = SpaceWars.Stage3;
 
   // load assets
   S1.prototype.preload = function() {
@@ -77,30 +77,30 @@ var SpaceWars = SpaceWars || {};
 
   S1.prototype.create = function() {
 
-    SpaceWars.BackGround.createBackground(this, 'purple');
+    SpaceWars.BackGround.createBackground(this, 'black');
 
     SpaceWars.PlayerShip.createShip(this);
 
     var enemyShipConstants = {
-      SPEED: 200,
-      NUM_SHIPS: 12,
+      SPEED: 400,
+      NUM_SHIPS: 16,
       SHOT_DELAY: 2000,
-      LASER_SPEED: 300,
+      LASER_SPEED: 400,
       NUM_LASERS: 100,
-      MAX_SHIPS_IN_SCREEN: 3
+      MAX_SHIPS_IN_SCREEN: 4
     };
     SpaceWars.EnemyShips.createShips(this, enemyShipConstants);
 
     var ufoConstants = {
 
-      SPEED: 100,
-      ANGLE_SPEED: 2,
-      NUM_SHIPS: 4,
+      SPEED: 150,
+      ANGLE_SPEED: 1,
+      NUM_SHIPS: 6,
       SHOT_DELAY: 500,
       LASER_SPEED: 500,
       NUM_LASERS: 200,
-      MAX_SHIPS_IN_SCREEN: 2,
-      MAX_ENEMY_KILLED_TO_APPEAR: 6
+      MAX_SHIPS_IN_SCREEN: 3,
+      MAX_ENEMY_KILLED_TO_APPEAR: 10
 
     };
     SpaceWars.Ufos.createUfos(this, ufoConstants);

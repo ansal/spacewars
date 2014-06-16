@@ -10,6 +10,6 @@ var SpaceWars = SpaceWars || {};
     window.screen.availHeight - 80, 
     Phaser.AUTO, 
   'game');
-  game.state.add('Stage2', SpaceWars.Stage2, true);
+  game.state.add('Stage3', SpaceWars.Stage3 , true);
 
 })();

@@ -70,9 +70,9 @@ var SpaceWars = SpaceWars || {};
   boltHitPlayer: function(player, bolt) {
     bolt.kill();
     // TODO: some animation here
-    player.playerLaserCount += 100;
-    if(player.playerLaserCount > 200) {
-      player.playerLaserCount = 200;
+    player.playerLaserCount += 50;
+    if(player.playerLaserCount > this.shipConstants.MAX_LASERS) {
+      player.playerLaserCount = this.shipConstants.MAX_LASERS;
     }
     SpaceWars.ScoreBoard.updateLaserCount(this, player.playerLaserCount);
   }
