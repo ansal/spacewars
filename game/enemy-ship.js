@@ -4,6 +4,7 @@ var SpaceWars = SpaceWars || {};
 
 (function(){
 
+  var ENEMY_MAX_DAMAGE = 10;
   var ENEMY_SHIPS = ['enemyBlack', 'enemyBlue', 'enemyGreen', 'enemyRed'];
 
   SpaceWars.EnemyShips = {
@@ -54,7 +55,7 @@ var SpaceWars = SpaceWars || {};
 
     },
 
-    createOneShip: function(stage) {
+    drawOneShip: function(stage) {
       
       var enemy = stage.enemyPool.getFirstDead();
       if(enemy === null || enemy === undefined) {
@@ -77,7 +78,7 @@ var SpaceWars = SpaceWars || {};
 
     createAllShips: function(stage) {
       for(var i = 0; i < stage.enemyShipConstants.NUM_SHIPS; i += 1) {
-        this.createOneShip(stage);
+        this.drawOneShip(stage);
       }
     },
 
@@ -148,6 +149,38 @@ var SpaceWars = SpaceWars || {};
         * stage.enemyShipConstants.LASER_SPEED;
 
 
+    },
+
+    // most probably the following functions will be called by game state methods
+    // and this will be set to stage
+    createOneShip: function() {
+
+      if( this.gameDataState.getEnemiesCreated() >= 
+          this.enemyShipConstants.NUM_SHIPS
+      ) {
+        return;
+      }
+
+      if(this.enemyPool.countLiving() >= this.enemyShipConstants.MAX_SHIPS_IN_SCREEN) {
+        return;
+      }
+
+      SpaceWars.EnemyShips.drawOneShip(this);
+      this.gameDataState.incrEnemiesCreated();
+
+    },
+
+    updateEnemyDamage: function(enemy) {
+      enemy.damageCount += 1;
+      if(enemy.damageCount >= ENEMY_MAX_DAMAGE) {
+        enemy.kill();
+      }
+    },
+
+    laserHitPlayer: function(player, laser) {
+      SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
+      SpaceWars.PlayerShip.updatePlayerDamage(player);
+      laser.kill();
     }
 
   };

@@ -35,8 +35,10 @@ var SpaceWars = SpaceWars || {};
 
   },
 
-  createOneBolt: function(stage) {
+  createOneBolt: function() {
     
+    var stage = this;
+
     var bolt = stage.boltPool.getFirstDead();
     if(bolt === null || bolt === undefined) {
       return;
@@ -63,6 +65,16 @@ var SpaceWars = SpaceWars || {};
 
     });
 
+  },
+
+  boltHitPlayer: function(player, bolt) {
+    bolt.kill();
+    // TODO: some animation here
+    player.playerLaserCount += 50;
+    if(player.playerLaserCount > 100) {
+      player.playerLaserCount = 100;
+    }
+    SpaceWars.ScoreBoard.updateLaserCount(this, player.playerLaserCount);
   }
 
   };

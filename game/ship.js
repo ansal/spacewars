@@ -4,6 +4,8 @@ var SpaceWars = SpaceWars || {};
 
 (function(){
 
+  var SHIP_MAX_DAMAGE = 100;
+
   SpaceWars.PlayerShip = {
 
     loadAssets: function(stage) {
@@ -154,6 +156,29 @@ var SpaceWars = SpaceWars || {};
     isDownKeyDown: function(stage) {
       return stage.input.keyboard.isDown(Phaser.Keyboard.DOWN);
     },
+
+    shipHitEnemy: function(player, enemy) {
+      SpaceWars.Impacts.showEnemyImpact(this, enemy);
+      SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
+      SpaceWars.PlayerShip.updatePlayerDamage(player);
+      SpaceWars.EnemyShips.updateEnemyDamage(enemy);
+    },
+
+    updatePlayerDamage: function(player) {
+      player.damageCount += 1;
+      SpaceWars.ScoreBoard.updatePlayerHealth(stage, 
+        100 - player.damageCount
+      );
+      if(player.damageCount >= SHIP_MAX_DAMAGE) {
+        player.kill();
+      }
+    },
+
+    laserHitEnemy: function(laser, enemy) {
+      SpaceWars.Impacts.showEnemyImpact(this, enemy);
+      SpaceWars.EnemyShips.updateEnemyDamage(enemy);
+      laser.kill();
+    }
 
   };
 
