@@ -64,6 +64,15 @@ var SpaceWars = SpaceWars || {};
   // load assets
   S1.prototype.preload = function() {
 
+    this.loadingText = this.game.add.text(
+      this.game.world.centerX - 100, 
+      this.game.world.centerY,
+      "Loading...", {
+      font: "30px Helvetica",
+      fill: "#ffffff",
+      align: "center"
+    });
+
     SpaceWars.PlayerShip.loadAssets(this);
     SpaceWars.EnemyShips.loadAssets(this);
     SpaceWars.Ufos.loadAssets(this);

@@ -39,6 +39,15 @@ var SpaceWars = SpaceWars || {};
     this.game.physics.enable(this.ship, Phaser.Physics.ARCADE);
     this.ship.body.velocity.x = 100;
 
+    this.githubText = this.game.add.text(
+      this.game.width - 450, 
+      20,
+      "Get source code for this game at github.com/ansal/spacewars", {
+      font: "16px Helvetica",
+      fill: "#ffffff",
+      align: "red"
+    });
+
     this.gameTitleText = this.game.add.text(
       this.game.world.centerX - 200, 
       this.game.world.centerY,
