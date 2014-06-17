@@ -72,6 +72,8 @@ var SpaceWars = SpaceWars || {};
       ufo.body.velocity.x = stage.ufoConstants.SPEED;
       ufo.body.velocity.y = -stage.ufoConstants.SPEED;
 
+      stage.alienArrival.play();
+
     },
 
     updateUfos: function(stage) {

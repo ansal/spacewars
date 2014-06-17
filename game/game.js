@@ -22,6 +22,7 @@ var SpaceWars = SpaceWars || {};
   game.state.add('Intro', SpaceWars.Intro , false);
   game.state.add('LevelSwitch', SpaceWars.LevelSwitch , false);
   game.state.add('LastScene', SpaceWars.LastScene , false);
+  game.state.add('PlayerDead', SpaceWars.PlayerDead , false);
   game.state.add('Stage1', SpaceWars.Stage1 , false);
   game.state.add('Stage2', SpaceWars.Stage2 , false);
   game.state.add('Stage3', SpaceWars.Stage3 , false);

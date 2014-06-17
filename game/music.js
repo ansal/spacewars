@@ -11,6 +11,7 @@ var SpaceWars = SpaceWars || {};
       stage.game.load.audio('bgMusic3', 'assets/sounds/bg/3.wav');
       stage.game.load.audio('enemyHitSound', 'assets/sounds/actions/enemyHit.ogg');
       stage.game.load.audio('laserSound', 'assets/sounds/actions/laser.ogg');
+      stage.game.load.audio('alienArrival', 'assets/sounds/actions/alienArrival.wav');
     },
 
     createMusics: function(stage) {
@@ -19,7 +20,7 @@ var SpaceWars = SpaceWars || {};
       stage.bgMusic3 = stage.game.add.audio('bgMusic3', 0.1, true);
       stage.enemyHitSound = stage.game.add.audio('enemyHitSound');
       stage.laserSound = stage.game.add.audio('laserSound');
-
+      stage.alienArrival = stage.game.add.audio('alienArrival');
     }
 
   };

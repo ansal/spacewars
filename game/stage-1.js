@@ -149,7 +149,8 @@ var SpaceWars = SpaceWars || {};
     SpaceWars.Impacts.clearImpacts(this);
 
     if(!this.ship.alive) {
-      console.log('Get another ship');
+      this.bgMusic1.stop();
+      this.state.start('PlayerDead');
       return;
     }
 
