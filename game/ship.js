@@ -161,7 +161,6 @@ var SpaceWars = SpaceWars || {};
       SpaceWars.Impacts.showEnemyImpact(this, enemy);
       SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
       SpaceWars.PlayerShip.updatePlayerDamage(player, this);
-      SpaceWars.EnemyShips.updateEnemyDamage(enemy, this);
     },
 
     updatePlayerDamage: function(player, stage) {
@@ -185,7 +184,6 @@ var SpaceWars = SpaceWars || {};
       SpaceWars.Impacts.showEnemyImpact(this, ufo);
       SpaceWars.Impacts.showPlayerImpactByEnemy(this, player);
       SpaceWars.PlayerShip.updatePlayerDamage(player, this);
-      SpaceWars.Ufos.updateUfoDamage(ufo, this);
     },
 
     laserHitUfo: function(laser, ufo) {
