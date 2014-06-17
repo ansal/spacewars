@@ -1,4 +1,5 @@
-spacewars
+SpaceWars
 =========
+![alt text](https://github.com/ansal/spacewars/raw/master/assets/images/screenshot.png "Screenshot")
 
-Space Wrs
+Play the game here http://ansal.github.io/spacewars
