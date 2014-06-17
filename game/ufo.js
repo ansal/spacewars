@@ -161,6 +161,7 @@ var SpaceWars = SpaceWars || {};
       if(ufo.damageCount >= UFO_MAX_DAMAGE) {
         stage.gameDataState.incrUfosKilled();
         ufo.kill();
+        stage.enemyHitSound.play();
       }
     },
 

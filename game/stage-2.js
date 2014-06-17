@@ -72,6 +72,7 @@ var SpaceWars = SpaceWars || {};
     SpaceWars.Bolts.loadAssets(this);
     SpaceWars.Pills.loadAssets(this);
     SpaceWars.BackGround.loadAssets(this);
+    SpaceWars.Sound.loadAssets(this);
 
   };
 
@@ -178,6 +179,10 @@ var SpaceWars = SpaceWars || {};
       SpaceWars.Ufos.createOneUfo,
       this
     );
+
+    // play bg music
+    SpaceWars.Sound.createMusics(this);
+    this.bgMusic2.play();
 
   };
 
@@ -358,6 +363,7 @@ var SpaceWars = SpaceWars || {};
     if(numEnemiesKilled >= numEnemies &&
         numUfosKilled >= numUfos
       ) {
+      this.bgMusic2.stop();
       SpaceWars.levelSwitchData = {
         level: 'Stage3',
         text: 'Level 2 Cleared!!!',

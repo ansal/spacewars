@@ -134,6 +134,9 @@ var SpaceWars = SpaceWars || {};
       stage.ship.playerLaserCount -= 1;
       SpaceWars.ScoreBoard.updateLaserCount(stage, stage.ship.playerLaserCount);
 
+      // play the sound
+      stage.laserSound.play();
+
     },
 
     // keyboard controls

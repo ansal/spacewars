@@ -173,6 +173,7 @@ var SpaceWars = SpaceWars || {};
       if(enemy.damageCount >= ENEMY_MAX_DAMAGE) {
         stage.gameDataState.incrEnemiesKilled();
         enemy.kill();
+        stage.enemyHitSound.play();
       }
     },
 
