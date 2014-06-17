@@ -82,16 +82,16 @@ var SpaceWars = SpaceWars || {};
       stage.ufoPool.forEachAlive(function(ufo){
 
         // keep the ships in track
-        if(ufo.x > stage.game.width) {
+        if(ufo.x > stage.game.width - 100) {
           ufo.body.velocity.x = -SPEED;
         };
-        if(ufo.x < 0) {
+        if(ufo.x < 50) {
           ufo.body.velocity.x = SPEED;
         }
-        if(ufo.y > stage.game.height) {
+        if(ufo.y > stage.game.height - 100) {
           ufo.body.velocity.y = -SPEED;
         }
-        if(ufo.y < 0) {
+        if(ufo.y < 50) {
           ufo.body.velocity.y = SPEED;
         }
 
@@ -157,6 +157,7 @@ var SpaceWars = SpaceWars || {};
 
     updateUfoDamage: function(ufo, stage) {
       ufo.damageCount += 1;
+      console.log(ufo.damageCount, UFO_MAX_DAMAGE)
       if(ufo.damageCount >= UFO_MAX_DAMAGE) {
         stage.gameDataState.incrUfosKilled();
         ufo.kill();

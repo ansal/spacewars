@@ -100,6 +100,14 @@ var SpaceWars = SpaceWars || {};
 
     SpaceWars.Pills.createPills(this);
 
+    
+    // timer to check whether level is cleared or not
+    this.game.time.events.loop(
+      Phaser.Timer.SECOND,
+      checkLevelCleared,
+      this
+    );
+
     // timer to add ships
     this.game.time.events.loop(
       Phaser.Timer.SECOND * 5,
@@ -266,5 +274,24 @@ var SpaceWars = SpaceWars || {};
     );
 
   };
+
+  // check whether a level is cleared or not by checking number of enemies -
+  // killed vs total number of enemies in this level
+  function checkLevelCleared() {
+
+    var numEnemies = this.enemyShipConstants.NUM_SHIPS;
+    var numEnemiesKilled = this.gameDataState.getEnemiesKilled();
+
+    if(numEnemiesKilled >= numEnemies) {
+      SpaceWars.levelSwitchData = {
+        level: 'Stage2',
+        text: 'Level 1 Cleared!!!',
+        info: 'PRESS SPACE BAR TO CONTINUE'
+      }
+      // cleared level one, move to second level
+      this.game.state.start('LevelSwitch');
+    }
+
+  }
 
 })();
