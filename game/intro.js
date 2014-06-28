@@ -89,7 +89,8 @@ var SpaceWars = SpaceWars || {};
 
   Intro.prototype.isSpaceKeyDown = function() {
 
-    return this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR);
+    return this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+            this.game.input.activePointer.isDown; 
 
   };
 

@@ -100,6 +100,8 @@ var SpaceWars = SpaceWars || {};
 
     shootLaser: function(stage) {
 
+      stage.ship.rotation = stage.game.physics.arcade.angleToPointer(stage.ship);
+
       if(stage.ship.playerLaserCount === 0) {
         return;
       }
@@ -149,11 +151,13 @@ var SpaceWars = SpaceWars || {};
     },
 
     isUpKeyDown: function(stage) {
-      return stage.input.keyboard.isDown(Phaser.Keyboard.UP);
+      return stage.input.keyboard.isDown(Phaser.Keyboard.UP) ||
+              stage.input.activePointer.isDown;
     },
 
     isSpaceKeyDown: function(stage) {
-      return stage.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR);
+      return stage.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+              stage.input.activePointer.isDown;
     },
 
     isDownKeyDown: function(stage) {
